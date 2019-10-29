@@ -283,6 +283,178 @@ spec:
               - azure_storage_access_key
               - azure_storage_account
               type: object
+            cloudwatch:
+              properties:
+                auto_create_stream:
+                  description: ' Create log group and stream automatically. (default:
+                    false)'
+                  type: boolean
+                aws_key_id:
+                  description: AWS access key id
+                  properties:
+                    mountFrom:
+                      properties:
+                        secretKeyRef:
+                          properties:
+                            key:
+                              description: Secret key for the value
+                              type: string
+                            name:
+                              description: Name of the kubernetes secret
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                      type: object
+                    value:
+                      type: string
+                    valueFrom:
+                      properties:
+                        secretKeyRef:
+                          properties:
+                            key:
+                              description: Secret key for the value
+                              type: string
+                            name:
+                              description: Name of the kubernetes secret
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                      type: object
+                  type: object
+                aws_sec_key:
+                  description: AWS secret key.
+                  properties:
+                    mountFrom:
+                      properties:
+                        secretKeyRef:
+                          properties:
+                            key:
+                              description: Secret key for the value
+                              type: string
+                            name:
+                              description: Name of the kubernetes secret
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                      type: object
+                    value:
+                      type: string
+                    valueFrom:
+                      properties:
+                        secretKeyRef:
+                          properties:
+                            key:
+                              description: Secret key for the value
+                              type: string
+                            name:
+                              description: Name of the kubernetes secret
+                              type: string
+                          required:
+                          - key
+                          - name
+                          type: object
+                      type: object
+                  type: object
+                concurrency:
+                  description: 'Use to set the number of threads pushing data to CloudWatch.
+                    (default: 1)'
+                  type: integer
+                endpoint:
+                  description: Use this parameter to connect to the local API endpoint
+                    (for testing)
+                  type: string
+                http_proxy:
+                  description: Use to set an optional HTTP proxy
+                  type: string
+                include_time_key:
+                  description: 'Include time key as part of the log entry (default:
+                    UTC)'
+                  type: boolean
+                json_handler:
+                  description: Name of the library to be used to handle JSON data.
+                    For now, supported libraries are json (default) and yajl
+                  type: string
+                localtime:
+                  description: Use localtime timezone for include_time_key output
+                    (overrides UTC default)
+                  type: boolean
+                log_group_aws_tags:
+                  description: Set a hash with keys and values to tag the log group
+                    resource
+                  type: string
+                log_group_aws_tags_key:
+                  description: Specified field of records as AWS tags for the log
+                    group
+                  type: string
+                log_group_name:
+                  description: Name of log group to store logs
+                  type: string
+                log_rejected_request:
+                  description: 'Output rejected_log_events_info request log. (default:
+                    false)'
+                  type: string
+                log_stream_name:
+                  description: Name of log stream to store logs
+                  type: string
+                log_stream_name_key:
+                  description: Specified field of records as log stream name
+                  type: string
+                max_events_per_batch:
+                  description: 'Maximum number of events to send at once (default:
+                    10000)'
+                  type: integer
+                max_message_length:
+                  description: Maximum length of the message
+                  type: integer
+                message_keys:
+                  description: Keys to send messages as events
+                  type: string
+                put_log_events_disable_retry_limit:
+                  description: If true, put_log_events_retry_limit will be ignored
+                  type: boolean
+                put_log_events_retry_limit:
+                  description: Maximum count of retry (if exceeding this, the events
+                    will be discarded)
+                  type: integer
+                put_log_events_retry_wait:
+                  description: Time before retrying PutLogEvents (retry interval increases
+                    exponentially like put_log_events_retry_wait * (2 ^ retry_count))
+                  type: string
+                region:
+                  description: AWS Region
+                  type: string
+                remove_log_group_aws_tags_key:
+                  description: Remove field specified by log_group_aws_tags_key
+                  type: string
+                remove_log_group_name_key:
+                  description: Remove field specified by log_group_name_key
+                  type: string
+                remove_log_stream_name_key:
+                  description: Remove field specified by log_stream_name_key
+                  type: string
+                remove_retention_in_days:
+                  description: Remove field specified by retention_in_days
+                  type: string
+                retention_in_days:
+                  description: Use to set the expiry time for log group when created
+                    with auto_create_stream. (default to no expiry)
+                  type: string
+                retention_in_days_key:
+                  description: Use specified field of records as retention period
+                  type: string
+                use_tag_as_group:
+                  description: Use tag as a group name
+                  type: boolean
+                use_tag_as_stream:
+                  description: Use tag as a stream name
+                  type: boolean
+              type: object
             elasticsearch:
               description: Send your logs to Elasticsearch
               properties:
