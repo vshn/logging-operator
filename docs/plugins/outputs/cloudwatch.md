@@ -3,6 +3,29 @@
 This plugin has been designed to output logs or metrics to Amazon CloudWatch.
 More info at https://github.com/fluent-plugins-nursery/fluent-plugin-cloudwatch-logs
 
+ #### Example output configurations
+ ```
+ spec:
+  cloudwatch:
+    aws_key_id:
+      valueFrom:
+        secretKeyRef:
+          name: logging-s3
+          key: awsAccessKeyId
+    aws_sec_key:
+      valueFrom:
+        secretKeyRef:
+          name: logging-s3
+          key: awsSecretAccesKey
+    log_group_name: operator-log-group
+    log_stream_name: operator-log-stream
+    auto_create_stream true
+    buffer:
+      timekey: 30s
+      timekey_wait: 30s
+      timekey_use_utc: true
+ ```
+
 ## Configuration
 ### Output Config
 | Variable Name | Type | Required | Default | Description |
@@ -28,7 +51,7 @@ More info at https://github.com/fluent-plugins-nursery/fluent-plugin-cloudwatch-
 | put_log_events_disable_retry_limit | bool | No | - | If true, put_log_events_retry_limit will be ignored<br> |
 | put_log_events_retry_limit | int | No | - | Maximum count of retry (if exceeding this, the events will be discarded)<br> |
 | put_log_events_retry_wait | string | No | - | Time before retrying PutLogEvents (retry interval increases exponentially like put_log_events_retry_wait * (2 ^ retry_count))<br> |
-| region | string | No | - | AWS Region<br> |
+| region | string | Yes | - | AWS Region<br> |
 | remove_log_group_aws_tags_key | string | No | - | Remove field specified by log_group_aws_tags_key<br> |
 | remove_log_group_name_key | string | No | - | Remove field specified by log_group_name_key<br> |
 | remove_log_stream_name_key | string | No | - | Remove field specified by log_stream_name_key<br> |
@@ -37,3 +60,5 @@ More info at https://github.com/fluent-plugins-nursery/fluent-plugin-cloudwatch-
 | retention_in_days_key | string | No | - | Use specified field of records as retention period<br> |
 | use_tag_as_group | bool | No | - | Use tag as a group name<br> |
 | use_tag_as_stream | bool | No | - | Use tag as a stream name<br> |
+| buffer | *Buffer | No | - | [Buffer](./buffer.md)<br> |
+| format | *Format | No | - | [Format](./format.md)<br> |

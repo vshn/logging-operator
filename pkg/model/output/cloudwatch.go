@@ -22,6 +22,29 @@ import (
 // +docName:"CloudWatch output plugin for Fluentd"
 //This plugin has been designed to output logs or metrics to Amazon CloudWatch.
 //More info at https://github.com/fluent-plugins-nursery/fluent-plugin-cloudwatch-logs
+//
+// #### Example output configurations
+// ```
+// spec:
+//  cloudwatch:
+//    aws_key_id:
+//      valueFrom:
+//        secretKeyRef:
+//          name: logging-s3
+//          key: awsAccessKeyId
+//    aws_sec_key:
+//      valueFrom:
+//        secretKeyRef:
+//          name: logging-s3
+//          key: awsSecretAccesKey
+//    log_group_name: operator-log-group
+//    log_stream_name: operator-log-stream
+//    auto_create_stream true
+//    buffer:
+//      timekey: 30s
+//      timekey_wait: 30s
+//      timekey_use_utc: true
+// ```
 type _docCloudWatch interface{}
 
 // +kubebuilder:object:generate=true
@@ -73,7 +96,7 @@ type CloudWatchOutput struct {
 	// Time before retrying PutLogEvents (retry interval increases exponentially like put_log_events_retry_wait * (2 ^ retry_count))
 	PutLogEventsRetryWait string `json:"put_log_events_retry_wait,omitempty"`
 	// AWS Region
-	Region string `json:"region,omitempty"`
+	Region string `json:"region"`
 	// Remove field specified by log_group_aws_tags_key
 	RemoveLogGroupAwsTagsKey string `json:"remove_log_group_aws_tags_key,omitempty"`
 	// Remove field specified by log_group_name_key
@@ -90,6 +113,10 @@ type CloudWatchOutput struct {
 	UseTagAsGroup bool `json:"use_tag_as_group,omitempty"`
 	// Use tag as a stream name
 	UseTagAsStream bool `json:"use_tag_as_stream,omitempty"`
+	// +docLink:"Buffer,./buffer.md"
+	Buffer *Buffer `json:"buffer,omitempty"`
+	// +docLink:"Format,./format.md"
+	Format *Format `json:"format,omitempty"`
 }
 
 func (c *CloudWatchOutput) ToDirective(secretLoader secret.SecretLoader, id string) (types.Directive, error) {
